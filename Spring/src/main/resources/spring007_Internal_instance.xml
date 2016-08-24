@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean id="CustomerBean" class="cn.ieayoio.spring.spring007_Internal_instance.Customer">
+        <property name="person">
+            <bean class="cn.ieayoio.spring.spring007_Internal_instance.Person">
+                <property name="name" value="yiibai"/>
+                <property name="address" value="address1"/>
+                <property name="age" value="28"/>
+            </bean>
+        </property>
+    </bean>
+</beans>
