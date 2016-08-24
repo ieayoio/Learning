@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <!--添加abstract="true"后，BaseCustomerMalaysia不能在被实例化-->
+    <bean id="BaseCustomerMalaysia" class="cn.ieayoio.spring.spring013_inheritance.Customer" abstract="true">
+        <property name="country" value="Malaysia"/>
+    </bean>
+
+    <bean id="CustomerBean" parent="BaseCustomerMalaysia">
+        <property name="country" value="Japan"/>
+        <property name="action" value="buy"/>
+        <property name="type" value="1"/>
+    </bean>
+
+</beans>
