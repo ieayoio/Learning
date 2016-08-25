@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor">
+        <property name="requiredAnnotationType" value="cn.ieayoio.spring.spring014_DependCheck_AtRequiredStyle.Mandatory"/>
+    </bean>
+
+    <bean id="CustomerBean" class="cn.ieayoio.spring.spring014_DependCheck_AtRequired.Customer">
+        <property name="action" value="buy"/>
+        <property name="type" value="1"/>
+
+        <!--<property name="person" ref="PersonBean"/>-->
+    </bean>
+
+    <bean id="PersonBean" class="cn.ieayoio.spring.spring014_DependCheck_AtRequired.Person">
+        <property name="name" value="yiibai"/>
+        <property name="address" value="address ABC"/>
+        <property name="age" value="29"/>
+    </bean>
+
+</beans>
