@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <!-- 添加RequiredAnnotationBeanPostProcessor 或者 context:annotation-config @Required注解依赖检查才会生效-->
+    <!--<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>-->
+    <context:annotation-config/>
+
+    <bean id="CustomerBean" class="cn.ieayoio.spring.spring014_DependCheck_AtRequired.Customer">
+        <property name="action" value="buy"/>
+        <property name="type" value="1"/>
+
+        <!-- 添加了@Required 需要设置person-->
+        <property name="person" ref="PersonBean"/>
+    </bean>
+
+    <bean id="PersonBean" class="cn.ieayoio.spring.spring014_DependCheck_AtRequired.Person">
+        <property name="name" value="yiibai"/>
+        <property name="address" value="address ABC"/>
+        <property name="age" value="29"/>
+    </bean>
+
+</beans>
