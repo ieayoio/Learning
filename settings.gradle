@@ -2,4 +2,5 @@ rootProject.name = 'Learning'
 include 'Spring'
 include 'HttpServer'
 include 'netty'
+include 'jedis'
 
