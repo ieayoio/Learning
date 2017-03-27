@@ -1,5 +1,7 @@
 import org.junit.Test;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 import java.util.Iterator;
 import java.util.List;
@@ -66,8 +68,22 @@ public class RedisTest {
         while (iterator.hasNext()) {
             System.out.println("List of stored keys:: " + iterator.next());
         }
-
-
     }
+
+    @Test
+    public void JedisPoolConfigTest() {
+
+        JedisPoolConfig config = new JedisPoolConfig();
+        config.setMaxIdle(8);
+        config.setMaxTotal(18);
+        JedisPool pool = new JedisPool(config, "127.0.0.1", 6379, 2000, null);
+        Jedis jedis = pool.getResource();
+//        jedis.set("ieayoio2017-03-27","123");
+        String value = jedis.get("ieayoio2017-03-27");
+        System.out.println(value);
+        jedis.close();
+        pool.close();
+    }
+
 
 }
