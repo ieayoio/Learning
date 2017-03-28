@@ -3,6 +3,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import redis.clients.jedis.Transaction;
+import redis.clients.util.SafeEncoder;
 
 import java.util.*;
 
@@ -211,6 +212,25 @@ public class RedisTest {
         t.set("foo", "bar");
         t.set("foo2", "bar");
         t.set("foo3", "bar");
+        t.exec();
+
+        jedis.close();
+        pool.close();
+
+    }
+
+    @Test
+    public void SafeEncoderTest() {
+
+        JedisPoolConfig config = new JedisPoolConfig();
+        config.setMaxIdle(8);
+        config.setMaxTotal(18);
+        JedisPool pool = new JedisPool(config, "127.0.0.1", 6379, 2000, null);
+        Jedis jedis = pool.getResource();
+
+        Transaction t = jedis.multi();
+
+        t.set(SafeEncoder.encode("SafeEncoderTest"), SafeEncoder.encode("bar"));
         t.exec();
 
         jedis.close();
