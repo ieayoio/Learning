@@ -1,8 +1,5 @@
 import org.junit.Test;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.Transaction;
+import redis.clients.jedis.*;
 import redis.clients.util.SafeEncoder;
 
 import java.util.*;
@@ -13,6 +10,21 @@ import java.util.*;
  * 参考：http://www.tianshouzhi.com/api/tutorials/redis/210
  */
 public class RedisTest {
+
+    @Test
+    public void typeTest(){
+        ShardedJedisPool shardedJedisPool;
+        JedisShardInfo jedisShardInfo;
+        ShardedJedis shardedJedis;
+
+        JedisPool jedisPool;
+        Jedis jedis;
+
+        JedisPoolConfig jedisPoolConfig;
+
+        JedisSentinelPool jedisSentinelPool;
+
+    }
 
 
     // 连接到 redis 服务
