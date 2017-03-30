@@ -1,16 +1,29 @@
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by ieayoio on 2016/12/29.
  */
 public class Test {
+
+    public static String testException(){
+
+        String d="234";
+
+        try {
+            return d.toString();
+        } catch (Exception e){
+            System.out.println("catch");
+            return "return catch";
+
+        }finally {
+            System.out.println("finally");
+
+        }
+
+    }
+
     public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
-        list.add("er");
-        list.add("fdf");
 
-        list.forEach(System.out::println);
+        String s = testException();
 
+        System.out.println(s);
     }
 }
