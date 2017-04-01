@@ -4,20 +4,16 @@ package cn.ieayoio.redis.learn.csdn;
  * Created by ieayoio on 2017/3/28.
  */
 
+import redis.clients.jedis.BinaryClient.LIST_POSITION;
+import redis.clients.jedis.*;
+import redis.clients.util.SafeEncoder;
+
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-
 //        import com.jedis.constants.JRedisPoolConfig;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
-import redis.clients.jedis.ShardedJedisPool;
-import redis.clients.jedis.SortingParams;
-import redis.clients.jedis.BinaryClient.LIST_POSITION;
-import redis.clients.util.SafeEncoder;
 
 /**
  * @author Mr.hu
@@ -25,6 +21,7 @@ import redis.clients.util.SafeEncoder;
  *          Class Explain:JedisUtil
  *          http://blog.csdn.net/cctcc/article/details/50515548
  */
+@SuppressWarnings("all")
 public class JedisUtil {
 
 
