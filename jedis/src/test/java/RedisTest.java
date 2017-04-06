@@ -23,6 +23,7 @@ public class RedisTest {
         JedisPoolConfig jedisPoolConfig;
 
         JedisSentinelPool jedisSentinelPool;
+//        jedisSentinelPool.getResource();
 
         JedisCluster jedisCluster;
 
@@ -96,39 +97,56 @@ public class RedisTest {
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxIdle(8);
         config.setMaxTotal(18);
-        JedisPool pool = new JedisPool(config, "127.0.0.1", 6379, 2000, null);
+        JedisPool pool = new JedisPool(config, "127.0.0.1", 6380, 2000, null);
         Jedis jedis = pool.getResource();
-//        jedis.set("ieayoio2017-03-27","123");
-        String value = jedis.get("ieayoio2017-03-27");
+        jedis.set("ieayoio2017-03-277","124");
+        String value = jedis.get("ieayoio2017-03-277");
         System.out.println(value);
         jedis.close();
         pool.close();
     }
 
 
-//    /**
-//     * 高可用连接
-//     */
-//    @Test
-//    public void JedisSentinelPoolTest() {
-//
-//        Set<String> sentinels = new HashSet<String>();
+    /**
+     * 高可用连接
+     *
+     * 需要配置sentinel
+     * 1.两个redis.conf，设置主从关系
+     * 2.两个sentinel.conf ，配置监视
+     * 参考：https://lanjingling.github.io/2015/12/29/redis-sentinel-jedis-shizhan/
+     *
+     * ort 26379  #端口
+     * dir /var/redis/sentinels/26379   #指定工作目录
+     * sentinel monitor mymaster 172.30.37.73 6379 2
+     * sentinel down-after-milliseconds mymaster 5000   #表示如果5s内mymaster没响应，就认为SDOWN
+     * sentinel parallel-syncs mymaster 1
+     * sentinel failover-timeout mymaster 15000  #表示如果15秒后,mysater仍没活过来，则启动failover，从剩下的slave中选一个升级为master
+     * logfile "/var/redis/log/sentinel_26379.log"  #sentinel日志位置
+     *
+     * 另外我测试时增加了protected-mode no才能运行
+     */
+    @Test
+    public void JedisSentinelPoolTest() {
+
+        Set<String> sentinels = new HashSet<String>();
 //        sentinels.add("127.0.0.1:6379");
-////        sentinels.add("172.18.18.208:26379");
-//        JedisPoolConfig config = new JedisPoolConfig();
-//        config.setMaxIdle(5);
-//        config.setMaxTotal(20);
-//        JedisSentinelPool pool = new JedisSentinelPool("mymaster", sentinels, config);
-//        Jedis jedis = pool.getResource();
-//        jedis.set("jedis", "jedis");
-//
-//        String s = jedis.get("jedis");
-//        System.out.println(s);
-//
-//
-//        jedis.close();
-//        pool.close();
-//    }
+        sentinels.add("127.0.0.1:26381");
+        sentinels.add("127.0.0.1:26382");
+
+        JedisPoolConfig config = new JedisPoolConfig();
+        config.setMaxIdle(5);
+        config.setMaxTotal(20);
+        JedisSentinelPool pool = new JedisSentinelPool("mymaster", sentinels, config);
+        Jedis jedis = pool.getResource();
+        jedis.set("jedis22", "jedis");
+
+        String s = jedis.get("jedis22");
+        System.out.println(s);
+
+
+        jedis.close();
+        pool.close();
+    }
 
 
     /**
