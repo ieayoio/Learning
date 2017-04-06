@@ -6,13 +6,13 @@ import java.util.*;
 
 /**
  * Created by ieayoio on 2017/3/6.
- *
+ * <p>
  * 参考：http://www.tianshouzhi.com/api/tutorials/redis/210
  */
 public class RedisTest {
 
     @Test
-    public void typeTest(){
+    public void typeTest() {
         ShardedJedisPool shardedJedisPool;
         JedisShardInfo jedisShardInfo;
         ShardedJedis shardedJedis;
@@ -23,6 +23,8 @@ public class RedisTest {
         JedisPoolConfig jedisPoolConfig;
 
         JedisSentinelPool jedisSentinelPool;
+
+        JedisCluster jedisCluster;
 
     }
 
