@@ -3,6 +3,19 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'war'
 
+apply plugin: 'java'//添加Java插件
+
+apply plugin: 'maven'//添加Maven插件
+
+sourceCompatibility = 1.8
+
+targetCompatibility = 1.8
+
+//compileOptions {
+//    sourceCompatibility JavaVersion.VERSION_1_8
+//    targetCompatibility JavaVersion.VERSION_1_8
+//}
+
 repositories {
     mavenCentral()
 }
