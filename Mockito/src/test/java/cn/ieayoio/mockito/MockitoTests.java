@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatcher;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -13,10 +14,7 @@ import org.mockito.stubbing.Answer;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 
@@ -225,9 +223,9 @@ public class MockitoTests {
     }
 
     @Test
-    public void unstubbed_invocations(){
+    public void unstubbed_invocations() {
         //mock对象使用Answer来对未预设的调用返回默认期望值
-        List mock = mock(List.class,new Answer() {
+        List mock = mock(List.class, new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 return 999;
@@ -236,7 +234,94 @@ public class MockitoTests {
         //下面的get(1)没有预设，通常情况下会返回NULL，但是使用了Answer改变了默认期望值
         Assert.assertEquals(999, mock.get(1));
         //下面的size()没有预设，通常情况下会返回0，但是使用了Answer改变了默认期望值
-        Assert.assertEquals(999,mock.size());
+        Assert.assertEquals(999, mock.size());
+    }
+
+
+    @Test
+    public void spy_on_real_objects() {
+        List list = new LinkedList();
+        List spy = spy(list);
+        //下面预设的spy.get(0)会报错，因为会调用真实对象的get(0)，所以会抛出越界异常
+        //when(spy.get(0)).thenReturn(3);
+
+        //使用doReturn-when可以避免when-thenReturn调用真实对象api
+        doReturn(999).when(spy).get(999);
+        //预设size()期望值
+        when(spy.size()).thenReturn(100);
+        //调用真实对象的api
+        spy.add(1);
+        spy.add(2);
+        Assert.assertEquals(100, spy.size());
+        Assert.assertEquals(1, spy.get(0));
+        Assert.assertEquals(2, spy.get(1));
+        verify(spy).add(1);
+        verify(spy).add(2);
+        Assert.assertEquals(999, spy.get(999));
+
+        System.out.println("===" + spy.get(1));
+        System.out.println("===" + spy.get(999));
+
+//        spy.get(2);
+    }
+
+    @Test
+    public void real_partial_mock() {
+        //通过spy来调用真实的api
+        List list = spy(new ArrayList());
+        Assert.assertEquals(0, list.size());
+        A a = mock(A.class);
+        //通过thenCallRealMethod来调用真实的api
+        when(a.doSomething(anyInt())).thenCallRealMethod();
+        Assert.assertEquals(999, a.doSomething(999));
+    }
+
+
+    class A {
+        public int doSomething(int i) {
+            return i;
+        }
+    }
+
+    @Test
+    public void reset_mock() {
+        List list = mock(List.class);
+        when(list.size()).thenReturn(10);
+        list.add(1);
+        Assert.assertEquals(10, list.size());
+        //重置mock，清除所有的互动和预设
+        reset(list);
+        Assert.assertEquals(0, list.size());
+    }
+
+    @Test
+    public void verification_in_order() {
+        List list = mock(List.class);
+        List list2 = mock(List.class);
+        list.add(1);
+        list2.add("hello");
+        list.add(2);
+        list2.add("world");
+        //将需要排序的mock对象放入InOrder
+        InOrder inOrder = inOrder(list, list2);
+        //下面的代码不能颠倒顺序，验证执行顺序
+        inOrder.verify(list).add(1);
+        inOrder.verify(list2).add("hello");
+        inOrder.verify(list).add(2);
+        inOrder.verify(list2).add("world");
+    }
+
+    @Test
+    public void verify_interaction() {
+        List list = mock(List.class);
+        List list2 = mock(List.class);
+        List list3 = mock(List.class);
+//        list3.add(2);
+        list.add(1);
+        verify(list).add(1);
+        verify(list, never()).add(2);
+        //验证零互动行为
+        verifyZeroInteractions(list2, list3);
     }
 
 
