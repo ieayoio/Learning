@@ -7,4 +7,5 @@ include 'Net'
 include 'Json'
 include 'Mockito'
 include 'Guice'
+include 'Email'
 
