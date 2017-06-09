@@ -6,4 +6,5 @@ include 'jedis'
 include 'Net'
 include 'Json'
 include 'Mockito'
+include 'Guice'
 
