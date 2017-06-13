@@ -1,4 +1,4 @@
-package cn.ieayoio.netty;
+package cn.ieayoio.netty.yibai;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

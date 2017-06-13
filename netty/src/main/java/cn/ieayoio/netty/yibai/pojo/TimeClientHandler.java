@@ -1,12 +1,8 @@
-package cn.ieayoio.netty.pojo;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+package cn.ieayoio.netty.yibai.pojo;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import java.util.Date;
 
 public class TimeClientHandler extends ChannelInboundHandlerAdapter {
     private ByteBuf buf;

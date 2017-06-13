@@ -1,4 +1,4 @@
-package cn.ieayoio.netty.time;
+package cn.ieayoio.netty.yibai.time;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;

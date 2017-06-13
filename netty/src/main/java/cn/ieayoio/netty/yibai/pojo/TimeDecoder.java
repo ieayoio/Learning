@@ -1,4 +1,4 @@
-package cn.ieayoio.netty.pojo;
+package cn.ieayoio.netty.yibai.pojo;
 
 import java.util.List;
 

@@ -1,8 +1,6 @@
-package cn.ieayoio.netty.pojo;
+package cn.ieayoio.netty.yibai.time;
 
-/**
- * Created by ieayoio on 2017/6/12.
- */import io.netty.bootstrap.Bootstrap;
+import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -11,12 +9,15 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+/**
+ * Created by ieayoio on 2017/6/12.
+ */
 public class TimeClient {
-
     public static void main(String[] args) throws Exception {
-
-        String host = "127.0.0.1";// args[0];
-        int port = 8080;//Integer.parseInt(args[1]);
+//        String host = args[0];
+        String host = "localhost";
+//        int port = Integer.parseInt(args[1]);
+        int port = 8080;
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
         try {
@@ -24,25 +25,17 @@ public class TimeClient {
             b.group(workerGroup); // (2)
             b.channel(NioSocketChannel.class); // (3)
             b.option(ChannelOption.SO_KEEPALIVE, true); // (4)
-            /**
-             b.handler(new ChannelInitializer<SocketChannel>() {
-            @Override
-            public void initChannel(SocketChannel ch) throws Exception {
-            ch.pipeline().addLast(new TimeClientHandler());
-            }
-            });*/
-
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new TimeDecoder(), new TimeClientHandler());
+                    ch.pipeline().addLast(new TimeClientHandler());
                 }
             });
 
-            // 启动客户端
+            // Start the client.
             ChannelFuture f = b.connect(host, port).sync(); // (5)
 
-            // 等待连接关闭
+            // Wait until the connection is closed.
             f.channel().closeFuture().sync();
         } finally {
             workerGroup.shutdownGracefully();

@@ -1,4 +1,4 @@
-package cn.ieayoio.netty.pojo;
+package cn.ieayoio.netty.yibai;
 
 import io.netty.bootstrap.ServerBootstrap;
 
@@ -11,13 +11,14 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 /**
- * 时间服务器
+ * Created by ieayoio on 2017/6/9.
+ * Discards any incoming data.
  */
-public class TimeServer {
+public class DiscardServer {
 
     private int port;
 
-    public TimeServer(int port) {
+    public DiscardServer(int port) {
         this.port = port;
     }
 
@@ -31,19 +32,18 @@ public class TimeServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            //ch.pipeline().addLast(new TimeServerHandler());
-                            ch.pipeline().addLast(new TimeServerHandler());
-                            ch.pipeline().addFirst(new TimeEncoder());
+                            ch.pipeline().addLast(new DiscardServerHandler());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
                     .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
 
-            // 绑定端口，开始接收进来的连接
+            // Bind and start to accept incoming connections.
             ChannelFuture f = b.bind(port).sync(); // (7)
 
-            // 等待服务器  socket 关闭 。
-            // 在这个例子中，这不会发生，但你可以优雅地关闭你的服务器。
+            // Wait until the server socket is closed.
+            // In this example, this does not happen, but you can do that to gracefully
+            // shut down your server.
             f.channel().closeFuture().sync();
         } finally {
             workerGroup.shutdownGracefully();
@@ -58,6 +58,8 @@ public class TimeServer {
         } else {
             port = 8080;
         }
-        new TimeServer(port).run();
+        new DiscardServer(port).run();
+
+        // 使用telnet localhost 8080后发送命令将能显示
     }
 }

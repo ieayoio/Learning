@@ -1,4 +1,4 @@
-package cn.ieayoio.netty;
+package cn.ieayoio.netty.yibai.pojo;
 
 import io.netty.bootstrap.ServerBootstrap;
 
@@ -11,14 +11,13 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 /**
- * Created by ieayoio on 2017/6/9.
- * Discards any incoming data.
+ * 时间服务器
  */
-public class DiscardServer {
+public class TimeServer {
 
     private int port;
 
-    public DiscardServer(int port) {
+    public TimeServer(int port) {
         this.port = port;
     }
 
@@ -32,18 +31,19 @@ public class DiscardServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
                         @Override
                         public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new DiscardServerHandler());
+                            //ch.pipeline().addLast(new TimeServerHandler());
+                            ch.pipeline().addLast(new TimeServerHandler());
+                            ch.pipeline().addFirst(new TimeEncoder());
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
                     .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
 
-            // Bind and start to accept incoming connections.
+            // 绑定端口，开始接收进来的连接
             ChannelFuture f = b.bind(port).sync(); // (7)
 
-            // Wait until the server socket is closed.
-            // In this example, this does not happen, but you can do that to gracefully
-            // shut down your server.
+            // 等待服务器  socket 关闭 。
+            // 在这个例子中，这不会发生，但你可以优雅地关闭你的服务器。
             f.channel().closeFuture().sync();
         } finally {
             workerGroup.shutdownGracefully();
@@ -58,8 +58,6 @@ public class DiscardServer {
         } else {
             port = 8080;
         }
-        new DiscardServer(port).run();
-
-        // 使用telnet localhost 8080后发送命令将能显示
+        new TimeServer(port).run();
     }
 }
