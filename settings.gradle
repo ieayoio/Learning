@@ -9,4 +9,5 @@ include 'Mockito'
 include 'Guice'
 include 'Email'
 include 'thread'
+include 'Jetty'
 
