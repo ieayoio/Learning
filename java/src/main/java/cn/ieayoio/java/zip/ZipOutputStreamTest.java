@@ -18,7 +18,7 @@ public class ZipOutputStreamTest {
     }
 
     public static void test1() throws IOException {
-        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream("D:\\testZip.zip"));
+        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream("/Users/ieayoio/test/testzip/zip.zip"));
         //实例化一个名称为ab.txt的ZipEntry对象
         ZipEntry entry = new ZipEntry("abcc.txt");
         //设置注释
@@ -34,8 +34,8 @@ public class ZipOutputStreamTest {
     }
 
     public static void test2() throws IOException {
-        File inFile = new File("D:\\test");
-        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream("D:\\test.zip"));
+        File inFile = new File("/Users/ieayoio/test/testzip/test");
+        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream("/Users/ieayoio/test/testzip/zip.zip"));
         zos.setComment("多文件处理");
         zipFile(inFile, zos, "");
         zos.close();
