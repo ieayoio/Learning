@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+// 压缩
 public class ZipOutputStreamTest {
 
     public static void main(String args[]) throws IOException {

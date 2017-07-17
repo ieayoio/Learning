@@ -10,6 +10,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
+
+// 解压缩
 public class ZipInputStreamTest {
 
     public static void main(String args[]) throws IOException {
