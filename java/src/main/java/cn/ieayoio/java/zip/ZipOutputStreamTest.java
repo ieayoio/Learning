@@ -45,7 +45,7 @@ public class ZipOutputStreamTest {
         if (inFile.isDirectory()) {
             File[] files = inFile.listFiles();
             for (File file:files)
-                zipFile(file, zos, dir+inFile.getName() + "\\"  );
+                zipFile(file, zos, dir+inFile.getName() + "/"  );
         } else {
             String entryName = null;
             if (!"".equals(dir))
