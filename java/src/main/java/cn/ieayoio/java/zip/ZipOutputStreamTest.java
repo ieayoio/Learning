@@ -14,7 +14,9 @@ public class ZipOutputStreamTest {
 
     public static void main(String args[]) throws IOException {
         //test1();
-        test2();
+        String baseurl = "/Users/ieayoio/test/testzip/test/";
+        test2("/Users/ieayoio/test/testzip/zip.key",
+                baseurl + "index.apxl", baseurl + "pg_0001.pdf", baseurl + "pg_0002.pdf", baseurl + "pg_0003.pdf");
     }
 
     public static void test1() throws IOException {
@@ -33,19 +35,27 @@ public class ZipOutputStreamTest {
         zos.close();
     }
 
-    public static void test2() throws IOException {
-        File inFile = new File("/Users/ieayoio/test/testzip/test");
-        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream("/Users/ieayoio/test/testzip/zip.zip"));
-        zos.setComment("多文件处理");
-        zipFile(inFile, zos, "");
+    public static void test2(String outFile, String... files) throws IOException {
+
+        if (files == null || files.length == 0) {
+            return;
+        }
+
+        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(outFile));
+//        zos.setComment("多文件处理");
+
+        for (String filename : files) {
+            File inFile = new File(filename);
+            zipFile(inFile, zos, "");
+        }
         zos.close();
     }
 
     public static void zipFile(File inFile, ZipOutputStream zos, String dir) throws IOException {
         if (inFile.isDirectory()) {
             File[] files = inFile.listFiles();
-            for (File file:files)
-                zipFile(file, zos, dir+inFile.getName() + "/"  );
+            for (File file : files)
+                zipFile(file, zos, dir + inFile.getName() + "/");
         } else {
             String entryName = null;
             if (!"".equals(dir))
@@ -58,7 +68,7 @@ public class ZipOutputStreamTest {
             byte[] datas = new byte[2048];
             int len = 0;
             while ((len = is.read(datas)) != -1)
-                zos.write(datas,0,len);
+                zos.write(datas, 0, len);
             is.close();
         }
 
