@@ -15,16 +15,22 @@ import java.util.zip.ZipInputStream;
 public class ZipInputStreamTest {
 
     public static void main(String args[]) throws IOException {
-        File file = new File("D:\\test.zip");//压缩文件
+        File file = new File("/Users/ieayoio/test/testzip/归档.zip");//压缩文件
         ZipFile zipFile = new ZipFile(file);//实例化ZipFile，每一个zip压缩文件都可以表示为一个ZipFile
         //实例化一个Zip压缩文件的ZipInputStream对象，可以利用该类的getNextEntry()方法依次拿到每一个ZipEntry对象
         ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(file));
         ZipEntry zipEntry = null;
         while ((zipEntry = zipInputStream.getNextEntry()) != null) {
             String fileName = zipEntry.getName();
-            File temp = new File("D:\\unpackTest\\" + fileName);
-            if (! temp.getParentFile().exists())
-                temp.getParentFile().mkdirs();
+            File temp = new File("/Users/ieayoio/test/testzip/123/" + fileName);
+            if (fileName.endsWith("/") && !temp.exists()){
+                temp.mkdirs();
+                continue;
+            }
+            File parentFile = temp.getParentFile();
+            if (!parentFile.exists()) {
+                parentFile.mkdirs();
+            }
             BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(temp));//文件缓冲区
             //OutputStream os = new FileOutputStream(temp);
             //通过ZipFile的getInputStream方法拿到具体的ZipEntry的输入流
