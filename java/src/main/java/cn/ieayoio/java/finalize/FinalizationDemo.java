@@ -10,6 +10,7 @@ public class FinalizationDemo {
         Cake c3 = new Cake(3);
 
         c2 = c3 = null;
+        // 主动调用垃圾回收，finalize()方法会被调用
         System.gc(); //Invoke the Java garbage collector
     }
 }
